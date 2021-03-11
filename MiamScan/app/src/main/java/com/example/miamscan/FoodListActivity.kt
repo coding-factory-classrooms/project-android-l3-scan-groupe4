@@ -20,7 +20,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
 
-class FoodListActivity : AppCompatActivity() {
+class FoodListActivity : AppCompatActivity(), onFoodItemClickedListener {
 
     private lateinit var binding: ActivityFoodListBinding
     private lateinit var adapter : FoodAdapter
@@ -33,9 +33,9 @@ class FoodListActivity : AppCompatActivity() {
         binding = ActivityFoodListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = FoodAdapter(listOf())
+        adapter = FoodAdapter(listOf(), this)
 
-        adapter = FoodAdapter(mutableListOf())
+        //adapter = FoodAdapter(mutableListOf())
         binding.RecyclerView.adapter = adapter
         binding.RecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -117,5 +117,15 @@ class FoodListActivity : AppCompatActivity() {
     private fun updateFoods(foods: List<FoodData>) {
     //private fun updateFoods(foods: MutableList<Product>) {
         adapter.updateDataSet(foods)
+    }
+
+    override fun onItemClick(foods: FoodData, position: Int) {
+        val intent = Intent(this, FoodDetailsActivity::class.java)
+        intent.putExtra("foodName", foods.name)
+        intent.putExtra("foodBrand", foods.brand)
+        intent.putExtra("foodDate", foods.date)
+        intent.putExtra("foodImage", foods.imageURL)
+
+        startActivity(intent)
     }
 }

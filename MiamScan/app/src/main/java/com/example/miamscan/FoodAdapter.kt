@@ -8,10 +8,19 @@ import com.example.miamscan.databinding.ItemFoodBinding
 import com.squareup.picasso.Picasso
 
 
-class FoodAdapter (private var foods : List<FoodData>)
+class FoodAdapter (private var foods : List<FoodData>, var clickedListener: onFoodItemClickedListener)
     : RecyclerView.Adapter<FoodAdapter.ViewHolder>(){
     class ViewHolder (val binding: ItemFoodBinding): RecyclerView.ViewHolder(binding.root) {
+        fun initialize(foods: FoodData, action: onFoodItemClickedListener){
+            binding.nameTextView.text = foods.name
+            binding.brandTextView.text = foods.brand
+            Picasso.get().load(foods.imageURL).into(binding.imageView)
 
+            itemView.setOnClickListener{
+                action.onItemClick(foods, adapterPosition)
+            }
+
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,6 +36,8 @@ class FoodAdapter (private var foods : List<FoodData>)
             brandTextView.text = food.brand
             dateTextView.text = food.date
             Picasso.get().load(food.imageURL).into(imageView)
+            holder.initialize(foods.get(position), clickedListener)
+
         }
     }
 
@@ -38,4 +49,8 @@ class FoodAdapter (private var foods : List<FoodData>)
         this.foods = foods
         notifyDataSetChanged()
     }
+}
+
+interface onFoodItemClickedListener{
+    fun onItemClick(foods: FoodData, position: Int)
 }
