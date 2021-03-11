@@ -1,22 +1,27 @@
 package com.example.miamscan
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.miamscan.databinding.ActivityFoodListBinding
 import com.google.zxing.integration.android.IntentIntegrator
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 class FoodListActivity : AppCompatActivity() {
 
     private val model : FoodListViewModel by viewModels()
     private lateinit var binding: ActivityFoodListBinding
     private lateinit var adapter : FoodAdapter
+    private lateinit var barcode : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,15 +29,14 @@ class FoodListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         model.getFoodsLiveData().observe(this, Observer { foods -> updateFoods(foods!!) })
-
-        adapter = FoodAdapter(listOf())
-
+        adapter = FoodAdapter(mutableListOf())
         binding.RecyclerView.adapter = adapter
         binding.RecyclerView.layoutManager = LinearLayoutManager(this)
 
-        model.loadMovies()
-
         binding.scanFloatingButton.setOnClickListener{
+            barcode = "3380380078644"//"7613036256698"
+            loadFoodFromApi()
+            return@setOnClickListener
             val integrator = IntentIntegrator(this)
             integrator.setBeepEnabled(true)
             integrator.setOrientationLocked(true)
@@ -49,6 +53,11 @@ class FoodListActivity : AppCompatActivity() {
 
         if(intentResult.contents != null){
             var alertDialog = AlertDialog.Builder(this)
+
+            barcode = intentResult.contents
+
+            loadFoodFromApi()
+
             alertDialog.setTitle("Result")
             alertDialog.setMessage(intentResult.contents)
             Log.i("micael", "onActivityResult: ${intentResult.contents}")
@@ -63,7 +72,36 @@ class FoodListActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateFoods(foods: List<Food>) {
+    private fun loadFoodFromApi() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://world.openfoodfacts.org/")
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(Api::class.java)
+
+        val data = service.getFood(barcode)
+
+        data.enqueue(object : Callback<FoodResponse> {
+            override fun onFailure(call: retrofit2.Call<FoodResponse>, t: Throwable) {
+                Log.e("Error", "onFailure: ", t)
+            }
+
+            override fun onResponse(call: retrofit2.Call<FoodResponse>, response: Response<FoodResponse>
+            ) {
+                val responseApi = response.body()
+                listFood.add(responseApi!!.product)
+
+                model.loadFood()
+                Log.i("responseApi", "onResponse:" + listFood.size)
+
+                Log.i("responseApi", "onResponse: $responseApi")
+            }
+        })
+    }
+
+
+    private fun updateFoods(foods: MutableList<Product>) {
         adapter.updateDataSet(foods)
     }
 }

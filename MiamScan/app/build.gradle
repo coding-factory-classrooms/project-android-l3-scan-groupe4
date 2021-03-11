@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -54,4 +55,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
 
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
+    implementation("com.squareup.moshi:moshi:1.11.0")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.11.0")
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

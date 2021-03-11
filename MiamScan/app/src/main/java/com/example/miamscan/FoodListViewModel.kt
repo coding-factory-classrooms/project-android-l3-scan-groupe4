@@ -4,33 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-private val foods = listOf(
-    Food("Couscous du soleil", "Ma vie sans glutten", R.drawable.image_couscous),
-    Food("Coca-Cola Vanille", "Coca-Cola", R.drawable.image_cocacola),
-    Food("Pain de mie", "Harrys", R.drawable.image_pain_harrys),
-    Food("Yop Chocolat", "Yoplay", R.drawable.image_yop_chocolat),
-    Food("Couscous du soleil", "Ma vie sans glutten", R.drawable.image_couscous),
-    Food("Coca-Cola Vanille", "Coca-Cola", R.drawable.image_cocacola),
-    Food("Pain de mie", "Harrys", R.drawable.image_pain_harrys),
-    Food("Yop Chocolat", "Yoplay", R.drawable.image_yop_chocolat),
-    Food("Couscous du soleil", "Ma vie sans glutten", R.drawable.image_couscous),
-    Food("Coca-Cola Vanille", "Coca-Cola", R.drawable.image_cocacola),
-    Food("Pain de mie", "Harrys", R.drawable.image_pain_harrys),
-    Food("Yop Chocolat", "Yoplay", R.drawable.image_yop_chocolat),
-    Food("Couscous du soleil", "Ma vie sans glutten", R.drawable.image_couscous),
-    Food("Coca-Cola Vanille", "Coca-Cola", R.drawable.image_cocacola),
-    Food("Pain de mie", "Harrys", R.drawable.image_pain_harrys),
-    Food("Yop Chocolat", "Yoplay", R.drawable.image_yop_chocolat)
-    )
+public val listFood : MutableList<Product> = mutableListOf()
 
 class FoodListViewModel : ViewModel () {
 
-    private val  foodsLivedData = MutableLiveData<List<Food>>()
+    private val foodsLivedData = MutableLiveData<MutableList<Product>>()
 
-    fun getFoodsLiveData(): LiveData<List<Food>> = foodsLivedData
+    fun getFoodsLiveData(): LiveData<MutableList<Product>> = foodsLivedData
 
-    fun loadMovies() {
-        foodsLivedData.value = foods
+    fun loadFood() {
+        foodsLivedData.value = listFood
     }
 
 }
