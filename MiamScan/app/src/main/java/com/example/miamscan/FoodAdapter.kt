@@ -3,9 +3,11 @@ package com.example.miamscan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.miamscan.data.FoodData
 import com.example.miamscan.databinding.ItemFoodBinding
+import com.squareup.picasso.Picasso
 
-class FoodAdapter (private var foods : List<Food>)
+class FoodAdapter (private var foods : List<FoodData>)
     : RecyclerView.Adapter<FoodAdapter.ViewHolder>(){
     class ViewHolder (val binding: ItemFoodBinding): RecyclerView.ViewHolder(binding.root) {
 
@@ -22,7 +24,8 @@ class FoodAdapter (private var foods : List<Food>)
         with(holder.binding){
             nameTextView.text = food.name
             brandTextView.text = food.brand
-            imageView.setImageResource(food.imageId)
+            dateTextView.text = food.date
+            Picasso.get().load(food.imageURL).into(imageView)
         }
     }
 
@@ -30,7 +33,7 @@ class FoodAdapter (private var foods : List<Food>)
         return foods.size
     }
 
-    fun updateDataSet(foods: List<Food>) {
+    fun updateDataSet(foods: List<FoodData  >) {
         this.foods = foods
         notifyDataSetChanged()
     }
