@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.miamscan">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MiamScan"
         android:usesCleartextTraffic="true">
+        <activity android:name=".FoodDetailsActivity"></activity>
         <activity android:name=".FoodListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +24,7 @@
         <activity
             android:name=".Capture"
             android:stateNotNeeded="true"
-            android:theme="@style/zxing_CaptureTheme"></activity>
+            android:theme="@style/zxing_CaptureTheme" />
     </application>
 
 </manifest>
