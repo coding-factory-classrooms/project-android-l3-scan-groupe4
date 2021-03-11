@@ -7,7 +7,9 @@ import com.example.miamscan.data.FoodData
 import com.example.miamscan.databinding.ItemFoodBinding
 import com.squareup.picasso.Picasso
 
+
 class FoodAdapter (private var foods : List<FoodData>)
+//class FoodAdapter (private var foods : MutableList<Product>)
     : RecyclerView.Adapter<FoodAdapter.ViewHolder>(){
     class ViewHolder (val binding: ItemFoodBinding): RecyclerView.ViewHolder(binding.root) {
 
@@ -26,6 +28,10 @@ class FoodAdapter (private var foods : List<FoodData>)
             brandTextView.text = food.brand
             dateTextView.text = food.date
             Picasso.get().load(food.imageURL).into(imageView)
+
+//            nameTextView.text = food.productName
+//            brandTextView.text = food.brands
+//            Picasso.get().load(food.image_url).into(imageView)
         }
     }
 
@@ -34,6 +40,7 @@ class FoodAdapter (private var foods : List<FoodData>)
     }
 
     fun updateDataSet(foods: List<FoodData  >) {
+    //fun updateDataSet(foods: MutableList<Product>) {
         this.foods = foods
         notifyDataSetChanged()
     }
