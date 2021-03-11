@@ -1,6 +1,7 @@
 package com.example.miamscan
 
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -17,13 +18,13 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.*
 
 class FoodListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFoodListBinding
     private lateinit var adapter : FoodAdapter
     private lateinit var barcode : String
-
 
     private lateinit var mFoodViewModel: FoodViewModel
 
@@ -34,14 +35,13 @@ class FoodListActivity : AppCompatActivity() {
 
         adapter = FoodAdapter(listOf())
 
-//        model.getFoodsLiveData().observe(this, Observer { foods -> updateFoods(foods!!) })
         adapter = FoodAdapter(mutableListOf())
         binding.RecyclerView.adapter = adapter
         binding.RecyclerView.layoutManager = LinearLayoutManager(this)
 
         binding.scanFloatingButton.setOnClickListener{
-            barcode = "3380380078644"//"7613036256698"
-            //loadFoodFromApi()
+            barcode = "7613036249928" //"3380380078644"//"7613036256698"
+            loadFoodFromApi()
             return@setOnClickListener
             val integrator = IntentIntegrator(this)
             integrator.setBeepEnabled(true)
@@ -67,7 +67,7 @@ class FoodListActivity : AppCompatActivity() {
 
             barcode = intentResult.contents
 
-            //loadFoodFromApi()
+            loadFoodFromApi()
 
             alertDialog.setTitle("Result")
             alertDialog.setMessage(intentResult.contents)
@@ -78,51 +78,40 @@ class FoodListActivity : AppCompatActivity() {
             }
             alertDialog.show()
 
-            insertDataInDatabase()
         } else {
             Toast.makeText(applicationContext,
                     "Erreur", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun insertDataInDatabase() {
-        val name = "Couscous"
-        val brand = "Du maroc"
-        val imageURL = "https://static.openfoodfacts.org/images/products/761/303/625/6698/front_fr.3.400.jpg"
-        val date = "24/10/2012"
+    private fun loadFoodFromApi() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://world.openfoodfacts.org/")
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
 
-        val food = FoodData(0, name, brand, imageURL, date)
-        mFoodViewModel.addFood(food)
-        Toast.makeText(this, "GG ça a marché", Toast.LENGTH_LONG).show()
+        val service = retrofit.create(Api::class.java)
+
+        val data = service.getFood(barcode)
+
+        data.enqueue(object : Callback<FoodResponse> {
+            override fun onFailure(call: retrofit2.Call<FoodResponse>, t: Throwable) {
+                Log.e("Error", "onFailure: ", t)
+            }
+
+            override fun onResponse(call: retrofit2.Call<FoodResponse>, response: Response<FoodResponse>
+            ) {
+                val responseApi = response.body()
+
+                val pattern = "dd.MM.yyyy HH:mm"
+                val simpleDateFormat = SimpleDateFormat(pattern)
+                val date = simpleDateFormat.format(Date())
+
+                val food = FoodData(0, responseApi!!.product.productName, responseApi.product.brands, responseApi.product.image_url, date)
+                mFoodViewModel.addFood(food)
+            }
+        })
     }
-
-//    private fun loadFoodFromApi() {
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl("https://world.openfoodfacts.org/")
-//            .addConverterFactory(MoshiConverterFactory.create())
-//            .build()
-//
-//        val service = retrofit.create(Api::class.java)
-//
-//        val data = service.getFood(barcode)
-//
-//        data.enqueue(object : Callback<FoodResponse> {
-//            override fun onFailure(call: retrofit2.Call<FoodResponse>, t: Throwable) {
-//                Log.e("Error", "onFailure: ", t)
-//            }
-//
-//            override fun onResponse(call: retrofit2.Call<FoodResponse>, response: Response<FoodResponse>
-//            ) {
-//                val responseApi = response.body()
-//                listFood.add(responseApi!!.product)
-//
-//                model.loadFood()
-//                Log.i("responseApi", "onResponse:" + listFood.size)
-//
-//                Log.i("responseApi", "onResponse: $responseApi")
-//            }
-//        })
-//    }
 
 
     private fun updateFoods(foods: List<FoodData>) {
