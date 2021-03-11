@@ -11,14 +11,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.miamscan.databinding.ActivityFoodListBinding
 import com.google.zxing.integration.android.IntentIntegrator
-import com.squareup.moshi.Moshi
-import okhttp3.Call
-import okhttp3.OkHttpClient
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.io.IOException
 
 class FoodListActivity : AppCompatActivity() {
 
@@ -33,16 +29,12 @@ class FoodListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         model.getFoodsLiveData().observe(this, Observer { foods -> updateFoods(foods!!) })
-
-        adapter = FoodAdapter(listOf())
-
+        adapter = FoodAdapter(mutableListOf())
         binding.RecyclerView.adapter = adapter
         binding.RecyclerView.layoutManager = LinearLayoutManager(this)
 
-        model.loadMovies()
-
         binding.scanFloatingButton.setOnClickListener{
-            barcode = "7613036256698"
+            barcode = "3380380078644"//"7613036256698"
             loadFoodFromApi()
             return@setOnClickListener
             val integrator = IntentIntegrator(this)
@@ -92,20 +84,24 @@ class FoodListActivity : AppCompatActivity() {
 
         data.enqueue(object : Callback<FoodResponse> {
             override fun onFailure(call: retrofit2.Call<FoodResponse>, t: Throwable) {
-                Log.e("aie", "onFailure: ", t)
+                Log.e("Error", "onFailure: ", t)
             }
 
             override fun onResponse(call: retrofit2.Call<FoodResponse>, response: Response<FoodResponse>
             ) {
-                  val test = response.body()
-                  Log.i("testbody", "onResponse: $test")
-            }
+                val responseApi = response.body()
+                listFood.add(responseApi!!.product)
 
+                model.loadFood()
+                Log.i("responseApi", "onResponse:" + listFood.size)
+
+                Log.i("responseApi", "onResponse: $responseApi")
+            }
         })
     }
 
 
-    private fun updateFoods(foods: List<Food>) {
+    private fun updateFoods(foods: MutableList<Product>) {
         adapter.updateDataSet(foods)
     }
 }

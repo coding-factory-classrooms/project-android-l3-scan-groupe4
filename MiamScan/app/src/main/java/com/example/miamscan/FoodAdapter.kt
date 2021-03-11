@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.miamscan.databinding.ItemFoodBinding
+import com.squareup.picasso.Picasso
 
-class FoodAdapter (private var foods : List<Food>)
+class FoodAdapter (private var foods : MutableList<Product>)
     : RecyclerView.Adapter<FoodAdapter.ViewHolder>(){
     class ViewHolder (val binding: ItemFoodBinding): RecyclerView.ViewHolder(binding.root) {
 
@@ -20,9 +21,9 @@ class FoodAdapter (private var foods : List<Food>)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val food = foods[position]
         with(holder.binding){
-            nameTextView.text = food.name
-            brandTextView.text = food.brand
-            imageView.setImageResource(food.imageId)
+            nameTextView.text = food.productName
+            brandTextView.text = food.brands
+            Picasso.get().load(food.image_url).into(imageView)
         }
     }
 
@@ -30,7 +31,7 @@ class FoodAdapter (private var foods : List<Food>)
         return foods.size
     }
 
-    fun updateDataSet(foods: List<Food>) {
+    fun updateDataSet(foods: MutableList<Product>) {
         this.foods = foods
         notifyDataSetChanged()
     }
