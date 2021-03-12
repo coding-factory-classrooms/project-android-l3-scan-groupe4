@@ -1,14 +1,14 @@
-package com.example.miamscan
+package com.example.miamscan.foodDetails
 
-import android.app.AlertDialog
-import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.miamscan.data.FoodData
-import com.example.miamscan.data.FoodViewModel
+import com.example.miamscan.model.FoodData
 import com.example.miamscan.databinding.ActivityFoodDetailsBinding
+import com.example.miamscan.foodList.FoodListActivity
+import com.example.miamscan.viewmodel.FoodViewModel
 import com.squareup.picasso.Picasso
 
 class FoodDetailsActivity : AppCompatActivity() {
@@ -29,11 +29,15 @@ class FoodDetailsActivity : AppCompatActivity() {
         binding.textViewNutritionDetail.text = getIntent().getStringExtra("foodNutrition")
         food = getIntent().extras!!.get("extra_object") as FoodData
         binding.deleteFloatingButton.setOnClickListener{
-            deleteUser(this)
+            deleteUser()
         }
     }
 
-    private fun deleteUser(context: Context) {
+    private fun deleteUser() {
         mFoodViewModel.deleteFood(food)
+        Toast.makeText(this, "${food.name} à été supprimé", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, FoodListActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

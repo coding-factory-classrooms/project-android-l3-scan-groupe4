@@ -1,9 +1,9 @@
-package com.example.miamscan
+package com.example.miamscan.foodList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.miamscan.data.FoodData
+import com.example.miamscan.model.FoodData
 import com.example.miamscan.databinding.ItemFoodBinding
 import com.squareup.picasso.Picasso
 
@@ -45,7 +45,7 @@ class FoodAdapter (private var foods : List<FoodData>, var clickedListener: onFo
         return foods.size
     }
 
-    fun updateDataSet(foods: List<FoodData  >) {
+    fun updateDataSet(foods: List<FoodData>) {
         this.foods = foods
         notifyDataSetChanged()
     }

@@ -1,4 +1,4 @@
-package com.example.miamscan
+package com.example.miamscan.foodList
 
 import android.content.Intent
 import android.icu.text.SimpleDateFormat
@@ -10,9 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.miamscan.data.FoodData
-import com.example.miamscan.data.FoodViewModel
+import com.example.miamscan.foodDetails.FoodDetailsActivity
+import com.example.miamscan.viewmodel.FoodViewModel
+import com.example.miamscan.api.Api
+import com.example.miamscan.capture.Capture
+import com.example.miamscan.model.FoodData
 import com.example.miamscan.databinding.ActivityFoodListBinding
+import com.example.miamscan.model.FoodResponse
 import com.google.zxing.integration.android.IntentIntegrator
 import retrofit2.Callback
 import retrofit2.Response
@@ -114,7 +118,6 @@ class FoodListActivity : AppCompatActivity(), onFoodItemClickedListener, Seriali
 
 
     private fun updateFoods(foods: List<FoodData>) {
-    //private fun updateFoods(foods: MutableList<Product>) {
         adapter.updateDataSet(foods)
     }
 

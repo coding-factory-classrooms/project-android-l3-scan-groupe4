@@ -1,4 +1,4 @@
-package com.example.miamscan.data
+package com.example.miamscan.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
