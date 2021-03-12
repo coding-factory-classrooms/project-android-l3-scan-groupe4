@@ -13,6 +13,8 @@ data class FoodResponse (
 @JsonClass(generateAdapter = true)
 data class Product (
     @Json(name = "product_name") val productName : String,
+    val packaging: String,
+    @Json(name = "nutrition_data_prepared_per") val nutrition : String,
     val brands: String,
     val image_url: String
 )

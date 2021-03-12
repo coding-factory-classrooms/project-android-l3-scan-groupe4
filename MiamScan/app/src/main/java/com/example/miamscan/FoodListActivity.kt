@@ -18,9 +18,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.io.Serializable
 import java.util.*
 
-class FoodListActivity : AppCompatActivity(), onFoodItemClickedListener {
+class FoodListActivity : AppCompatActivity(), onFoodItemClickedListener, Serializable {
 
     private lateinit var binding: ActivityFoodListBinding
     private lateinit var adapter : FoodAdapter
@@ -35,12 +36,11 @@ class FoodListActivity : AppCompatActivity(), onFoodItemClickedListener {
 
         adapter = FoodAdapter(listOf(), this)
 
-        //adapter = FoodAdapter(mutableListOf())
         binding.RecyclerView.adapter = adapter
         binding.RecyclerView.layoutManager = LinearLayoutManager(this)
 
         binding.scanFloatingButton.setOnClickListener{
-            barcode = "7613036249928" //"3380380078644"//"7613036256698"
+            barcode = "7613036249928" //"7613036256698" //"3380380078644"//
             loadFoodFromApi()
             return@setOnClickListener
             val integrator = IntentIntegrator(this)
@@ -102,12 +102,11 @@ class FoodListActivity : AppCompatActivity(), onFoodItemClickedListener {
             override fun onResponse(call: retrofit2.Call<FoodResponse>, response: Response<FoodResponse>
             ) {
                 val responseApi = response.body()
-
                 val pattern = "dd.MM.yyyy HH:mm"
                 val simpleDateFormat = SimpleDateFormat(pattern)
                 val date = simpleDateFormat.format(Date())
 
-                val food = FoodData(0, responseApi!!.product.productName, responseApi.product.brands, responseApi.product.image_url, date)
+                val food = FoodData(0, responseApi!!.product.productName, responseApi.product.brands, responseApi.product.image_url, date, responseApi.product.packaging, responseApi.product.nutrition)
                 mFoodViewModel.addFood(food)
             }
         })
@@ -125,7 +124,9 @@ class FoodListActivity : AppCompatActivity(), onFoodItemClickedListener {
         intent.putExtra("foodBrand", foods.brand)
         intent.putExtra("foodDate", foods.date)
         intent.putExtra("foodImage", foods.imageURL)
-
+        intent.putExtra("foodCategories", foods.packaging)
+        intent.putExtra("foodNutrition", foods.nutrition)
+        intent.putExtra("extra_object", foods as Serializable)
         startActivity(intent)
     }
 }
