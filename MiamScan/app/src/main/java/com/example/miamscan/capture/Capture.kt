@@ -1,4 +1,4 @@
-package com.example.miamscan
+package com.example.miamscan.capture
 
 import com.journeyapps.barcodescanner.CaptureActivity
 

@@ -1,5 +1,6 @@
-package com.example.miamscan
+package com.example.miamscan.api
 
+import com.example.miamscan.model.FoodResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

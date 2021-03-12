@@ -1,9 +1,12 @@
-package com.example.miamscan.data
+package com.example.miamscan.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.example.miamscan.data.FoodDataBase
+import com.example.miamscan.data.FoodRepo
+import com.example.miamscan.model.FoodData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

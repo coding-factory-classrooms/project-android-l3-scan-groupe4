@@ -1,13 +1,13 @@
-package com.example.miamscan
+package com.example.miamscan.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class FoodResponse (
-    val product: Product,
-    val code : String,
-    val status : String,
+        val product: Product,
+        val code : String,
+        val status : String,
 )
 
 @JsonClass(generateAdapter = true)
