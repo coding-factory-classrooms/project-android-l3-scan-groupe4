@@ -18,9 +18,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.io.Serializable
 import java.util.*
 
-class FoodListActivity : AppCompatActivity(), onFoodItemClickedListener {
+class FoodListActivity : AppCompatActivity(), onFoodItemClickedListener, Serializable {
 
     private lateinit var binding: ActivityFoodListBinding
     private lateinit var adapter : FoodAdapter
@@ -35,7 +36,6 @@ class FoodListActivity : AppCompatActivity(), onFoodItemClickedListener {
 
         adapter = FoodAdapter(listOf(), this)
 
-        //adapter = FoodAdapter(mutableListOf())
         binding.RecyclerView.adapter = adapter
         binding.RecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -126,6 +126,7 @@ class FoodListActivity : AppCompatActivity(), onFoodItemClickedListener {
         intent.putExtra("foodImage", foods.imageURL)
         intent.putExtra("foodCategories", foods.packaging)
         intent.putExtra("foodNutrition", foods.nutrition)
+        intent.putExtra("extra_object", foods as Serializable)
         startActivity(intent)
     }
 }

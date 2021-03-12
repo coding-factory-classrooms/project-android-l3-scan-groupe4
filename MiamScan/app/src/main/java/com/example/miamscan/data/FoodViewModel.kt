@@ -24,4 +24,10 @@ class FoodViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun deleteFood(foodData: FoodData){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteFood(foodData)
+        }
+    }
+
 }

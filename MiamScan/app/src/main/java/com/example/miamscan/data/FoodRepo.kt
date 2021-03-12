@@ -9,4 +9,8 @@ class FoodRepo(private val foodDAO: FoodDAO) {
     suspend fun addFood (foodData: FoodData){
         foodDAO.addFood(foodData)
     }
+
+    suspend fun deleteFood(foodData: FoodData){
+        foodDAO.deleteFood(foodData)
+    }
 }
