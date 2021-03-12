@@ -10,5 +10,7 @@ data class FoodData (
     val name: String,
     val brand: String,
     val imageURL: String,
-    val date: String
+    val date: String,
+    val packaging: String,
+    val nutrition: String
 )
