@@ -9,11 +9,12 @@
     <ImageView
         android:id="@+id/imageViewDetails"
         android:layout_width="250dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="30dp"
+        android:layout_height="250dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNameDetail"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNutritionDetail"
         app:srcCompat="@drawable/image_couscous" />
 
     <TextView
@@ -24,7 +25,9 @@
         android:text="TextView"
         android:textSize="30sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textViewBrandDetail"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,13 +35,15 @@
         android:id="@+id/textViewBrandDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
-        android:textSize="20sp"
 
+        android:layout_marginTop="16dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/deleteFloatingButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewDetails" />
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewNutritionDetail"
+        app:layout_constraintEnd_toEndOf="@+id/textViewNameDetail"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/textViewNameDetail"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNameDetail" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/deleteFloatingButton"
@@ -56,28 +61,33 @@
         android:id="@+id/textViewCategoriesDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="32dp"
         android:text="Matériaux utilisés :"
-        app:layout_constraintBottom_toTopOf="@+id/textViewCategoriesDetail"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewDetails" />
 
     <TextView
         android:id="@+id/textViewNutritionDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="32dp"
         android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewDetails"
         app:layout_constraintEnd_toEndOf="@+id/textViewBrandDetail"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/textViewBrandDetail"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewDetails" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewBrandDetail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

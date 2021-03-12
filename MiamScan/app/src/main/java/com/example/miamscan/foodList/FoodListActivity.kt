@@ -44,7 +44,7 @@ class FoodListActivity : AppCompatActivity(), onFoodItemClickedListener, Seriali
         binding.RecyclerView.layoutManager = LinearLayoutManager(this)
 
         binding.scanFloatingButton.setOnClickListener{
-            barcode = "7613036249928" //"7613036256698" //"3380380078644"//
+            barcode = "3400930055953"//"7613036249928" // "7613036256698"
             loadFoodFromApi()
             return@setOnClickListener
             val integrator = IntentIntegrator(this)
